@@ -14,3 +14,5 @@ Then generate the SSL certificates with Let's encrypt for each domain used:
 ```
 docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d <www.example.com>
 ```
+
+The process to update SSL certificates is heavily taken from [this website](https://mindsers.blog/post/https-using-nginx-certbot-docker/).
