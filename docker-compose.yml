@@ -2,14 +2,16 @@ version: "3.2"
 services:
   gateway:
     image: nginx:latest
+    # name: lnprivate-gateway
+    hostname: lnprivate-gateway
     # restart: unless-stopped
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d/:ro
-      - ./cerbot/certs:/etc/letsencrypt/:ro
+      - ./certbot/conf:/etc/letsencrypt/:ro
         #- ./backend/public:/srv/public
-        #- ../lnprivate-network/temporary_public:/srv/lnprivate_network
+      - ./public:/srv/lnprivate_network/:ro
         #- ./data/certbot/conf:/etc/letsencrypt
-      - ./certbot:/var/www/certbot/:rw
+      - ./certbot/www:/var/www/certbot/:ro
     ports:
       - 80:80
       - 443:443
@@ -18,8 +20,10 @@ services:
       - proxy
   certbot:
     image: certbot/certbot:latest
+    hostname: lnprivate-certbot
     volumes:
-      - ./certbot/:/var/www/certbot/:rw
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
     networks:
       - proxy
 networks:
