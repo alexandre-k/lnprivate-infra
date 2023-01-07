@@ -1,0 +1,10 @@
+{
+  "name": "mirroring",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "nostr": "^0.2.7"
+  }
+}
