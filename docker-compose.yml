@@ -1,0 +1,32 @@
+version: "3.2"
+services:
+  gateway:
+    image: nginx:latest
+    # restart: unless-stopped
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d/:ro
+      - ./cerbot/certs:/etc/letsencrypt/:ro
+        #- ./backend/public:/srv/public
+        #- ../lnprivate-network/temporary_public:/srv/lnprivate_network
+        #- ./data/certbot/conf:/etc/letsencrypt
+      - ./certbot:/var/www/certbot/:rw
+    ports:
+      - 80:80
+      - 443:443
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+    networks:
+      - proxy
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/:/var/www/certbot/:rw
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
+
+volumes:
+  cache:
+    driver: local
+
