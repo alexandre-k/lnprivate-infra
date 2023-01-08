@@ -1,0 +1,15 @@
+[Unit]
+Description=relayer
+Documentation=https://lnprivate.network
+After=network.target
+
+[Service]
+Type=simple
+User=admin
+ExecStart=/usr/bin/node main.js
+WorkingDirectory=/home/admin/lnprivate-infra/mirroring
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
